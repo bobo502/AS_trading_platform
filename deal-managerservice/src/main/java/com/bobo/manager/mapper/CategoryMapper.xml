@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bobo.manager.mapper.CategoryMapper">
+
+    <insert id="addCategory">
+        insert into category set category=#{category}
+    </insert>
+    <select id="queryall" resultType="com.bobo.deal.bean.Category">
+        select * from category
+    </select>
+    <select id="queryCount" resultType="integer">
+        select count(*) from category
+    </select>
+    <delete id="delete">
+        delete from category where id=#{id}
+    </delete>
+    <update id="change">
+        update category set category=#{category} where id=#{id}
+    </update>
+
+
+    <insert id="addReclassify">
+        insert into reclassify set cid=#{cid},reclassify=#{reclassify}
+    </insert>
+    <select id="queryReclassifyAll" resultType="com.bobo.deal.bean.Reclassify">
+        select * from reclassify where cid=#{cid}
+    </select>
+    <update id="setLogo">
+        update reclassify set url=#{url} where reclassify_id=#{id}
+    </update>
+    <delete id="deleteReclassify">
+        delete from reclassify where reclassify_id=#{id}
+    </delete>
+</mapper>

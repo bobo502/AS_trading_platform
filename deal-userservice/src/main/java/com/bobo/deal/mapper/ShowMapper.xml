@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bobo.deal.mapper.ShowMapper">
+    <select id="getProduct" resultType="com.bobo.deal.bean.Product">
+        select * from product
+        <where>
+            <if test="rid!=-1">
+                AND reclassify_id=#{rid}
+            </if>
+            <if test="keywords!=null">
+                AND title LIKE concat('%',#{keywords},'%')
+            </if>
+        </where>
+        ORDER BY product.date DESC limit #{start},#{count};
+    </select>
+    <select id="getPhotos" resultType="string">
+        select photos.url from photos where pid=#{pid}
+    </select>
+    <select id="getTags" resultType="string">
+        select tags.tag from tags where pid=#{pid}
+    </select>
+    <select id="productCount" resultType="java.lang.Integer">
+        select count(*) from product
+    </select>
+
+    <select id="getProductDetail" resultType="com.bobo.deal.bean.Product">
+        select * from product where product_id=#{pid}
+    </select>
+    <select id="getUser" resultType="com.bobo.deal.bean.UserMsg">
+        select * from user where user_id=#{uid}
+    </select>
+    <select id="getUniversity" resultType="string">
+        select university from university where id=#{id} and status=1
+    </select>
+    <select id="getBuyInfo" resultMap="BuyInfo">
+        select a.*,b.nickname,b.head_portrait,b.qq,b.wechat,c.tags from buy_information a
+        left join user b on a.uid=b.user_id
+        left join buy_tags c on a.buy_id=c.bid
+        ORDER BY a.date DESC limit #{start},#{count};
+    </select>
+    <select id="getBuyTags" resultType="string">
+        select tags from buy_tags where bid=#{bid}
+    </select>
+    <resultMap id="BuyInfo" type="com.bobo.deal.bean.Buy_Information">
+        <id column="buy_id" property="buy_id"/>
+        <result column="title" property="title"/>
+        <result column="intro" property="intro"/>
+        <result column="buy_price" property="buy_price"/>
+        <result column="uid" property="uid"/>
+        <result column="logo_url" property="photos"/>
+        <result column="date" property="date"/>
+        <collection property="userMsg" ofType="com.bobo.deal.bean.UserMsg">
+            <result property="nickname" column="nickname"/>
+            <result property="head_portrait" column="head_portrait"/>
+            <result property="qq" column="qq"/>
+            <result property="wechat" column="wechat"/>
+        </collection>
+    </resultMap>
+
+    <select id="BuyInfoCount" resultType="integer">
+        select count(*) from buy_information
+    </select>
+</mapper>
