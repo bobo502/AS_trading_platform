@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bobo.deal.mapper.ReleaseMapper">
+    <insert id="addgood" parameterType="com.bobo.deal.bean.Product" useGeneratedKeys="true" keyProperty="product_id">
+        insert into product
+        (title,intro,bid_price,original_price,reclassify_id,postage,uid,date)
+        values (#{title},#{intro},#{bid_price},#{original_price},#{reclassify_id},#{postage},#{uid},#{date})
+    </insert>
+    <insert id="addphoto">
+        insert into photos set pid=#{pid},url=#{photo}
+    </insert>
+    <insert id="addtag">
+        insert into tags set pid=#{pid},tag=#{tag}
+    </insert>
+    <insert id="addBuyInfo" parameterType="com.bobo.deal.bean.Buy_Information" useGeneratedKeys="true" keyProperty="buy_id">
+        insert into buy_information
+        (title,intro,buy_price,uid,logo_url,date)
+        values (#{title},#{intro},#{buy_price},#{uid},#{photos},#{date})
+    </insert>
+    <insert id="addBuyTags">
+        insert into buy_tags set bid=#{bid},tags=#{tag}
+    </insert>
+    <select id="getProduct" resultType="com.bobo.deal.bean.Product">
+        select * from product where uid=#{id}
+    </select>
+    <delete id="deleteProductById">
+        delete from product where product_id=#{pid} and uid=#{uid}
+    </delete>
+    <select id="getBuyInfo" resultType="com.bobo.deal.bean.Buy_Information">
+        select * from buy_information where uid=#{id}
+    </select>
+    <delete id="deleteBuyById">
+        delete from buy_information where buy_id=#{bid} and uid=#{uid}
+    </delete>
+
+    <delete id="deletePhotos">
+        delete from photos where pid=#{pid}
+    </delete>
+    <delete id="deleteTags">
+        delete from tags where pid=#{pid}
+    </delete>
+    <delete id="deleteBuyTags">
+        delete  from  buy_tags where bid=#{bid}
+    </delete>
+</mapper>

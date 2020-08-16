@@ -1,0 +1,10 @@
+dubbo:
+    application:
+        name: service_controller
+    protocol:
+        name: dubbo
+        port: 20809
+    registry:
+        address: nacos://127.0.0.1:8848
+server:
+    port: 8001
